@@ -35,7 +35,7 @@ uint16_t tcs34725_read16(uint8_t reg) {
 void tcs34725_init() {
   tcs34725_write8(0x00, 0x01); // Power ON
   delay(10);
-  tcs34725_write8(0x00, 0x03); // Enable RGBC
+  tcs34725_write8(0x00, 0x03); // เปิด RGBC
   tcs34725_write8(0x01, 0xD5); // Integration time
 }
 
@@ -48,12 +48,12 @@ void read_color(uint16_t *r, uint16_t *g, uint16_t *b) {
 void setup() {
   Serial.begin(115200);
 
-  // Init I2C
+  // setup I2C
   Wire.setSDA(SDA_PIN);
   Wire.setSCL(SCL_PIN);
   Wire.begin();
 
-  // IR Sensor
+  // setup IR Sensor
   pinMode(IR_SENSOR_PIN, INPUT);
 
   // Servo setup
@@ -62,37 +62,37 @@ void setup() {
   servo1.write(0);
   servo2.write(0);
 
-  // TCS34725 init
+  // TCS34725 setup
   tcs34725_init();
   delay(100);
 }
 
 void loop() {
-  if (digitalRead(IR_SENSOR_PIN) == LOW) { // Object detected
+  if (digitalRead(IR_SENSOR_PIN) == LOW) { // ตรวจจับวัตถุ
     uint16_t r, g, b;
     read_color(&r, &g, &b);
 
     Serial.print("R: "); Serial.print(r);
-    Serial.print(" G: "); Serial.print(g);
-    Serial.print(" B: "); Serial.println(b);
+    Serial.print("G: "); Serial.print(g);
+    Serial.print("B: "); Serial.println(b);
 
     if (r > g && r > b) {
-      // RED → do nothing
+      // เงื่อนไขของสีแดง
       servo1.write(0);
       servo2.write(0);
     } else if (b > r && b > g) {
-      // BLUE → Servo1 = 90°
+      // เงื่อนไขของสีน้ำเงิน
       servo1.write(90);
       servo2.write(0);
     } else if (g > r && g > b) {
-      // GREEN → Servo2 = 90°
+      // เงื่อนไขของสีเขียว
       servo1.write(0);
       servo2.write(90);
     }
 
     delay(1000);
   } else {
-    // No object detected → reset servos
+    // reset servo
     servo1.write(0);
     servo2.write(0);
   }
