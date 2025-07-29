@@ -1,12 +1,12 @@
 #include <Wire.h>
 #include <Servo.h>
 
-#define SDA_PIN 4
-#define SCL_PIN 5
+#define SDA_PIN 5
+#define SCL_PIN 6
 
-#define IR_SENSOR_PIN 14
-#define SERVO1_PIN 16
-#define SERVO2_PIN 17
+#define IR_SENSOR_PIN 4
+#define SERVO1_PIN 25 // servo ตัวที่ 1
+#define SERVO2_PIN 26 // servo ตัวที่ 2
 
 #define TCS34725_ADDRESS 0x29
 #define TCS34725_COMMAND_BIT 0x80
